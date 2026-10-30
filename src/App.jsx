@@ -23,7 +23,9 @@ import {
   Sparkles,
   ChevronDown,
   Menu,
-  X
+  X,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -35,6 +37,8 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [contactSent, setContactSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [contactError, setContactError] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   // 1. Download Resume function (generates an authentic, beautifully formatted PDF on the fly)
@@ -167,14 +171,42 @@ export default function App() {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  // 3. Contact Form Submission
-  const handleFormSubmit = (e) => {
+  // 3. Contact Form Submission (Live Delivery to mahamadoufalloundiaye@gmail.com)
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setContactSent(true);
-    setTimeout(() => {
-      setContactSent(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 4500);
+    setIsSubmitting(true);
+    setContactError(null);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/mahamadoufalloundiaye@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          nom: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Nouveau message Portfolio — ${formData.name}`,
+          _template: "table"
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && (data.success === "true" || data.success === true)) {
+        setContactSent(true);
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error(data.message || "Erreur lors de l'envoi du message.");
+      }
+    } catch (err) {
+      console.error("Erreur envoi email:", err);
+      setContactError("Impossible d'envoyer automatiquement via le service tiers pour le moment. Vous pouvez m'écrire directement via votre messagerie :");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // 4. GSAP Animations & Lifecycle as strictly mandated in GEMINI.md
@@ -1075,12 +1107,34 @@ export default function App() {
                   <h4 className="font-sans font-bold text-base sm:text-lg text-emerald-900">
                     Message transmis avec succès !
                   </h4>
-                  <p className="font-sans text-xs text-emerald-800">
-                    Merci pour votre prise de contact. Je vous répondrai dans les plus brefs délais.
+                  <p className="font-sans text-xs sm:text-sm text-emerald-800 leading-relaxed max-w-md mx-auto">
+                    Votre message a été transmis directement à <strong>mahamadoufalloundiaye@gmail.com</strong> avec tous les détails. Je vous répondrai dans les plus brefs délais.
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setContactSent(false)}
+                    className="mt-2 btn-magnetic bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold px-5 py-2.5 rounded-full inline-block"
+                  >
+                    Envoyer un nouveau message
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
+                  {contactError && (
+                    <div className="bg-amber-50 border border-amber-300 rounded-2xl p-4 text-xs text-amber-900 flex flex-col gap-2">
+                      <div className="flex items-center gap-2 font-medium">
+                        <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                        <span>{contactError}</span>
+                      </div>
+                      <a
+                        href={`mailto:mahamadoufalloundiaye@gmail.com?subject=Message%20Portfolio%20de%20${encodeURIComponent(formData.name || 'Visiteur')}&body=${encodeURIComponent(formData.message)}`}
+                        className="underline font-bold text-signal flex items-center gap-1 hover:text-blue-700"
+                      >
+                        Ouvrir mon application de messagerie &rarr;
+                      </a>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block font-mono text-xs text-noir/70 uppercase mb-1.5 font-semibold">
                       Votre nom & prénom *
@@ -1126,10 +1180,20 @@ export default function App() {
                   <div className="pt-2 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-between">
                     <button
                       type="submit"
-                      className="btn-magnetic w-full sm:w-auto bg-signal hover:bg-blue-600 text-white font-mono font-bold text-xs uppercase px-7 py-3.5 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-signal/30"
+                      disabled={isSubmitting}
+                      className="btn-magnetic w-full sm:w-auto bg-signal hover:bg-blue-600 disabled:opacity-60 text-white font-mono font-bold text-xs uppercase px-7 py-3.5 rounded-full flex items-center justify-center gap-2 shadow-lg shadow-signal/30"
                     >
-                      <Send className="w-4 h-4" />
-                      <span>TRANSMETTRE LE MESSAGE</span>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>ENVOI EN COURS...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>TRANSMETTRE LE MESSAGE</span>
+                        </>
+                      )}
                     </button>
 
                     <button

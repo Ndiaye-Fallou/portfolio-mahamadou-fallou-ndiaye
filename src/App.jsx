@@ -21,7 +21,9 @@ import {
   Activity,
   Award,
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  Menu,
+  X
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,6 +32,7 @@ export default function App() {
   const containerRef = useRef(null);
   const heroRef = useRef(null);
   const [navScrolled, setNavScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [contactSent, setContactSent] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -395,54 +398,128 @@ export default function App() {
 
       {/* =========================================================================
           A. NAVBAR — "La Signature Flottante"
-          Pill shape fixed at top, transitions to frosted blur background on scroll
+          Pill shape fixed at top, transitions to frosted blur background on scroll.
+          Mobile responsive with hamburger toggle and collapsible navigation drawer.
           ========================================================================= */}
       <header
-        className={`fixed top-5 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[94%] max-w-5xl rounded-full px-5 py-3 flex items-center justify-between ${navScrolled
-          ? 'bg-offwhite/85 backdrop-blur-xl border border-noir/15 shadow-xl text-noir'
-          : 'bg-noir/40 backdrop-blur-md border border-white/10 text-white'
-          }`}
+        className={`fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[94%] max-w-5xl ${
+          mobileMenuOpen ? 'rounded-[2rem]' : 'rounded-full'
+        } px-3.5 sm:px-6 py-2.5 sm:py-3 shadow-xl ${
+          navScrolled || mobileMenuOpen
+            ? 'bg-offwhite/95 backdrop-blur-xl border border-noir/15 text-noir'
+            : 'bg-noir/70 backdrop-blur-md border border-white/10 text-white'
+        }`}
       >
-        {/* Brand / Monogram */}
-        <a href="#hero" className="flex items-center gap-2 group">
-          <span className="w-8 h-8 rounded-full bg-signal text-white font-mono font-bold flex items-center justify-center text-xs tracking-tighter group-hover:scale-105 transition-transform">
-            MN
-          </span>
-          <span className="font-mono text-xs tracking-wider uppercase hidden sm:inline-block font-semibold">
-            MFN
-          </span>
-        </a>
-
-        {/* Anchors */}
-        <nav className="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider uppercase font-medium">
-          <a href="#about" className="interactive-lift hover:text-signal transition-colors">
-            À propos
-          </a>
-          <a href="#experience" className="interactive-lift hover:text-signal transition-colors">
-            Expérience
-          </a>
-          <a href="#skills" className="interactive-lift hover:text-signal transition-colors">
-            Compétences
-          </a>
-          <a href="#education" className="interactive-lift hover:text-signal transition-colors">
-            Formation
-          </a>
-          <a href="#contact" className="interactive-lift hover:text-signal transition-colors">
-            Contact
-          </a>
-        </nav>
-
-        {/* CTA Button */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleDownloadCV}
-            className="btn-magnetic bg-signal hover:bg-blue-700 text-white px-4 py-2 rounded-full font-mono text-xs font-bold tracking-wider flex items-center gap-2 shadow-md hover:shadow-signal/40"
-            title="Télécharger le CV au format PDF"
+        <div className="flex items-center justify-between w-full">
+          {/* Brand / Monogram */}
+          <a
+            href="#hero"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 group flex-shrink-0"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>CV.PDF</span>
-          </button>
+            <span className="w-8 h-8 rounded-full bg-signal text-white font-mono font-bold flex items-center justify-center text-xs tracking-tighter group-hover:scale-105 transition-transform shadow-sm">
+              MN
+            </span>
+            <span className="font-mono text-xs tracking-wider uppercase font-semibold">
+              MFN
+            </span>
+          </a>
+
+          {/* Desktop Anchors */}
+          <nav className="hidden md:flex items-center gap-7 text-xs font-mono tracking-wider uppercase font-medium">
+            <a href="#about" className="interactive-lift hover:text-signal transition-colors">
+              À propos
+            </a>
+            <a href="#experience" className="interactive-lift hover:text-signal transition-colors">
+              Expérience
+            </a>
+            <a href="#skills" className="interactive-lift hover:text-signal transition-colors">
+              Compétences
+            </a>
+            <a href="#education" className="interactive-lift hover:text-signal transition-colors">
+              Formation
+            </a>
+            <a href="#contact" className="interactive-lift hover:text-signal transition-colors">
+              Contact
+            </a>
+          </nav>
+
+          {/* Action CTAs: CV Button + Mobile Menu Burger Button */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <button
+              onClick={handleDownloadCV}
+              className="btn-magnetic bg-signal hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-mono text-[11px] sm:text-xs font-bold tracking-wider flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-signal/40 flex-shrink-0"
+              title="Télécharger le CV au format PDF"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>CV.PDF</span>
+            </button>
+
+            {/* Mobile Burger Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`md:hidden p-1.5 sm:p-2 rounded-full border transition-colors flex items-center justify-center flex-shrink-0 ${
+                navScrolled || mobileMenuOpen
+                  ? 'border-noir/20 bg-noir/5 text-noir hover:bg-noir/10'
+                  : 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+              }`}
+              aria-label={mobileMenuOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-4 h-4 text-signal" />
+              ) : (
+                <Menu className="w-4 h-4" />
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Navigation Drawer */}
+        {mobileMenuOpen && (
+          <nav className="md:hidden pt-3.5 pb-2 mt-3 border-t border-noir/10 flex flex-col gap-1 font-mono text-xs tracking-wider uppercase">
+            <a
+              href="#about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-xl hover:bg-signal/10 hover:text-signal transition-colors flex items-center justify-between"
+            >
+              <span>01 // À propos</span>
+              <span className="text-signal">&rarr;</span>
+            </a>
+            <a
+              href="#experience"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-xl hover:bg-signal/10 hover:text-signal transition-colors flex items-center justify-between"
+            >
+              <span>02 // Expérience</span>
+              <span className="text-signal">&rarr;</span>
+            </a>
+            <a
+              href="#skills"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-xl hover:bg-signal/10 hover:text-signal transition-colors flex items-center justify-between"
+            >
+              <span>03 // Compétences</span>
+              <span className="text-signal">&rarr;</span>
+            </a>
+            <a
+              href="#education"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-xl hover:bg-signal/10 hover:text-signal transition-colors flex items-center justify-between"
+            >
+              <span>04 // Formation</span>
+              <span className="text-signal">&rarr;</span>
+            </a>
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-xl hover:bg-signal/10 hover:text-signal transition-colors flex items-center justify-between"
+            >
+              <span>05 // Contact</span>
+              <span className="text-signal">&rarr;</span>
+            </a>
+          </nav>
+        )}
       </header>
 
       {/* =========================================================================

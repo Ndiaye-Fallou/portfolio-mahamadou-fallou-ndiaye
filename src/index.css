@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: #F5F3EE;
+    color: #111111;
+  }
+}
+
+/* Noise overlay generator using inline svg filter */
+.noise-bg {
+  filter: url(#noiseFilter);
+  background-color: #000;
+}
+
+/* Micro-interactions required by GEMINI.md */
+.btn-magnetic {
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease, background-color 0.2s ease;
+}
+
+.btn-magnetic:hover {
+  transform: scale(1.03);
+}
+
+.btn-magnetic:active {
+  transform: scale(0.98);
+}
+
+.interactive-lift {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
+}
+
+.interactive-lift:hover {
+  transform: translateY(-1px);
+}
+
+.card-hover-lift {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  transform: scale(1.01);
+  box-shadow: 0 20px 40px -15px rgba(17, 17, 17, 0.08);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #E8E4DD;
+}
+::-webkit-scrollbar-thumb {
+  background: #2563EB;
+  border-radius: 4px;
+}
+

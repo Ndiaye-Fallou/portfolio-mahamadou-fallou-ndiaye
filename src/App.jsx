@@ -120,7 +120,7 @@ export default function App() {
             <div class="skill-pill"><strong>HTML5 / CSS3 / Tailwind CSS</strong> — Intégration pixel-perfect, design systems (95%)</div>
             <div class="skill-pill"><strong>Git & GitHub</strong> — Versioning, CI/CD, collaboration Agile (90%)</div>
             <div class="skill-pill"><strong>Accompagnement Digital</strong> — Stratégie numérique, formation, webmastering (86%)</div>
-            <div class="skill-pill"><strong>Outils & BDD</strong> — VS Code, MongoDB, PostgreSQL, Postman, Vite</div>
+            <div class="skill-pill"><strong>Outils & BDD</strong> — VS Code, MySQL, MongoDB, WordPress, Postman, Vite</div>
           </div>
         </div>
 
@@ -411,13 +411,11 @@ export default function App() {
           Mobile responsive with hamburger toggle and collapsible navigation drawer.
           ========================================================================= */}
       <header
-        className={`fixed top-3 sm:top-5 left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-50 transition-all duration-300 sm:w-[94%] max-w-5xl ${
-          mobileMenuOpen ? 'rounded-[2rem]' : 'rounded-full'
-        } px-3.5 sm:px-6 py-2.5 sm:py-3 shadow-2xl ${
-          navScrolled || mobileMenuOpen
+        className={`fixed top-3 sm:top-5 left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-50 transition-all duration-300 sm:w-[94%] max-w-5xl ${mobileMenuOpen ? 'rounded-[2rem]' : 'rounded-full'
+          } px-3.5 sm:px-6 py-2.5 sm:py-3 shadow-2xl ${navScrolled || mobileMenuOpen
             ? 'bg-[#F5F3EE]/95 backdrop-blur-xl border border-noir/20 text-noir'
             : 'bg-[#0e0e12]/90 backdrop-blur-xl border border-white/20 text-white'
-        }`}
+          }`}
       >
         <div className="flex items-center justify-between w-full gap-2">
           {/* Brand / Monogram */}
@@ -468,11 +466,10 @@ export default function App() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`md:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all flex items-center justify-center flex-shrink-0 active:scale-90 ${
-                navScrolled || mobileMenuOpen
+              className={`md:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full border transition-all flex items-center justify-center flex-shrink-0 active:scale-90 ${navScrolled || mobileMenuOpen
                   ? 'border-noir/25 bg-noir/10 text-noir hover:bg-noir/20'
                   : 'border-white/30 bg-white/20 text-white hover:bg-white/30 shadow'
-              }`}
+                }`}
               aria-label={mobileMenuOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
             >
               {mobileMenuOpen ? (
@@ -903,9 +900,10 @@ export default function App() {
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">Vite.js</span>
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">TypeScript</span>
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">REST API</span>
-                    <span className="bg-white/10 px-2.5 py-1 rounded-md">PostgreSQL</span>
+                    <span className="bg-white/10 px-2.5 py-1 rounded-md">MySQL</span>
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">Linux CLI</span>
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">Figma</span>
+                    <span className="bg-white/10 px-2.5 py-1 rounded-md">WordPress</span>
                     <span className="bg-white/10 px-2.5 py-1 rounded-md">SEO Technique</span>
                   </div>
                 </div>

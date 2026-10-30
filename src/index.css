@@ -3,27 +3,57 @@
 @tailwind utilities;
 
 @layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
     background-color: #F5F3EE;
     color: #111111;
+    overflow-x: hidden;
+    max-width: 100vw;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Accessibility focus ring */
+  :focus-visible {
+    outline: 2px solid #2563EB;
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
-/* Noise overlay generator using inline svg filter */
+/* =========================================================================
+   1. Visual Texture: Noise Overlay (GEMINI.md requirement)
+   ========================================================================= */
 .noise-bg {
   filter: url(#noiseFilter);
   background-color: #000;
+  transform: translateZ(0);
+  pointer-events: none;
 }
 
-/* Micro-interactions required by GEMINI.md */
+/* =========================================================================
+   2. Micro-Interactions (GEMINI.md Design System)
+   ========================================================================= */
+
+/* Magnetic feel for buttons */
 .btn-magnetic {
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s ease, background-color 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.25s ease,
+              background-color 0.2s ease,
+              border-color 0.2s ease;
+  will-change: transform;
 }
 
 .btn-magnetic:hover {
@@ -31,35 +61,96 @@
 }
 
 .btn-magnetic:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
+/* Lift interaction for links & small cards */
 .interactive-lift {
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.2s ease,
+              background-color 0.2s ease,
+              border-color 0.2s ease;
+  will-change: transform;
 }
 
 .interactive-lift:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
+.interactive-lift:active {
+  transform: translateY(0);
+}
+
+/* Experience & dashboard cards hover lift */
 .card-hover-lift {
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  will-change: transform, box-shadow;
 }
 
 .card-hover-lift:hover {
-  transform: scale(1.01);
-  box-shadow: 0 20px 40px -15px rgba(17, 17, 17, 0.08);
+  transform: scale(1.01) translateY(-2px);
+  box-shadow: 0 20px 40px -15px rgba(17, 17, 17, 0.12);
 }
 
-/* Custom scrollbar */
+/* =========================================================================
+   3. Keyframe Animations
+   ========================================================================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* =========================================================================
+   4. Custom Scrollbar (WebKit & Firefox)
+   ========================================================================= */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2563EB #E8E4DD;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #E8E4DD;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #2563EB;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: #1D4ED8;
+}
+
+/* =========================================================================
+   5. Reduced Motion for Accessibility
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

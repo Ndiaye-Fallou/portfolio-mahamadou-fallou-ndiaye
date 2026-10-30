@@ -125,17 +125,24 @@ export default function App() {
           <div class="section-title">Formation & Diplômes</div>
           <div class="item">
             <div class="item-header">
-              <span>Certification Développeur Web Full-Stack</span>
-              <span class="item-period">2023 — 2024</span>
+              <span>Formation Développement Web & Mobile &mdash; IIBS</span>
+              <span class="item-period">2025</span>
             </div>
-            <div class="desc">Spécialisation architectures modernes web, JavaScript avancé, Node.js et React.</div>
+            <div class="desc">Institut Informatique Business School &bull; Algorithmique, développement frontend & backend, bases de données et travail collaboratif.</div>
           </div>
           <div class="item">
             <div class="item-header">
-              <span>Formation Technologies du Web & Référent Digital</span>
-              <span class="item-period">2021 — 2023</span>
+              <span>Sciences Économiques et de Gestion &mdash; UN-CHK</span>
+              <span class="item-period">2023 — 2025</span>
             </div>
-            <div class="desc">Conception de systèmes digitaux, intégration et gestion de projet web.</div>
+            <div class="desc">Université Numérique Cheikh Hamidou Kane &bull; Comptabilité financière, gestion d'entreprise et analyse organisationnelle.</div>
+          </div>
+          <div class="item">
+            <div class="item-header">
+              <span>Baccalauréat Scientifique S2</span>
+              <span class="item-period">2020 — 2023</span>
+            </div>
+            <div class="desc">Lycée Mixte Maurice Delafosse &bull; Rigueur scientifique, logique mathématique et modélisation.</div>
           </div>
         </div>
       </body>
@@ -364,21 +371,21 @@ export default function App() {
 
   const education = [
     {
-      year: "2023 — 2024",
-      degree: "Certification Concepteur & Développeur Web Full-Stack",
-      school: "Institut Supérieur de Technologie / Cursus Professionnel",
-      detail: "Approfondissement des architectures logicielles, patterns réactifs React, sécurité des API et déploiement moderne.",
-    },
-    {
-      year: "2021 — 2023",
-      degree: "Formation Développement Web & Outils Numériques",
-      school: "Centre de Formation Numérique & Pratique",
+      year: "2025",
+      degree: "Formation Développement Web & Mobile",
+      school: "Institut Informatique Business School (IIBS)",
       detail: "Bases solides en algorithmique, développement frontend & backend, bases de données relationnelles et travail collaboratif.",
     },
     {
-      year: "2020 — 2021",
-      degree: "Baccalauréat Scientifique & Culture Digitale",
-      school: "Enseignement Général",
+      year: "2023 — 2025",
+      degree: "Formation en Sciences Économiques et de Gestion",
+      school: "Université Numérique Cheikh Hamidou Kane",
+      detail: "Etude sur la comptabilté financière et la gestion",
+    },
+    {
+      year: "2020 — 2023",
+      degree: "Baccalauréat Scientifique S2",
+      school: "Lycée Mixte Maurice Delafosse",
       detail: "Rigueur scientifique, logique mathématique, résolution méthodique de problèmes et passion précoce pour l'informatique.",
     },
   ];
